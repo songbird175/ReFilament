@@ -7,7 +7,7 @@ win = Tk()
 myFont = tkFont.Font(family = 'Helvetica', size = 36, weight = 'bold')
 
 def helloPress():
-	sys.stdout = TextRedirector("Hey there, lovely human!")
+	print("Hey there, lovely human!")
 
 def exitProgram():
 	print("Exit button pressed")
