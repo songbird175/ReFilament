@@ -9,11 +9,13 @@ class HomePageGUI:
         master.title("ReFilament PLA recycler") #shows up in the top bar
         master.geometry('800x480') #This seems to be good for the touchscreen, so I'm not gonna mess with it
 
+        master.configure(background = '#a1dbcd')
+
         self.header = tkFont.Font(family = 'Roboto', size = 30, weight = 'bold') #This font makes Isaac happy
         self.start_font = tkFont.Font(family = 'Roboto', size = 26, weight = 'bold')
         self.log_font = tkFont.Font(family = 'Roboto', size = 18, weight = 'bold')
 
-        self.label = Label(master, text="So you want to recycle filament...", font = self.header) #sweet, this prints text above the buttons
+        self.label = Label(master, text="So you want to recycle filament...", font = self.header, background = '#a1dbcd') #sweet, this prints text above the buttons
         self.label.place(relx = 0.5, rely = 0.2, anchor = N)
 
         self.start_button = Button(master, text="Let's get started!", font = self.start_font, command=self.start, height = 2, width = 16)
