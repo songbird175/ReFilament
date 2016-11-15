@@ -17,9 +17,9 @@ win.title("First GUI")
 win.geometry('800x480')
 
 exitButton = Button(win, text = "Exit", font = myFont, command = exitProgram, height = 2, width = 6)
-exitButton.pack(side = BOTTOM)
+exitButton.pack(side = BOTTOM) #if not attached to a specific side, Exit will appear on top as the first button initialized
 
 helloButton = Button(win, text = "Hiii!", font = myFont, command = helloPress, height = 2, width = 8)
-helloButton.pack()
+helloButton.pack() #initializes the button at the top b/c it's the first button not attached to a side
 
 mainloop() #Window doesn't open without this
