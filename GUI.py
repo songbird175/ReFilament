@@ -4,14 +4,14 @@ import sys
 
 win = Tk()
 
-myFont = tkFont.Font(family = 'Helvetica', size = 36, weight = 'bold')
+myFont = tkFont.Font(family = 'Roboto', size = 36, weight = 'bold') #this font makes Isaac happy
 
 def helloPress():
-	print("Hey there, lovely human!")
+	print("Hey there, lovely human!") #prints to the console. I'm curious about printing to the GUI itself...but that might not be relevant right now
 
 def exitProgram():
 	print("Exit button pressed")
-	win.quit()
+	win.quit() #closes the window
 
 win.title("ReFilament PLA recycler") #shows up on the top bar
 win.geometry('800x480') #This seems to be good for the touchscreen, so I'm not gonna mess with it
