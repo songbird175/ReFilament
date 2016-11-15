@@ -22,4 +22,4 @@ exitButton.pack(side = BOTTOM)
 helloButton = Button(win, text = "Hiii!", font = myFont, command = helloPress, height = 2, width = 8)
 helloButton.pack()
 
-mainloop()
+mainloop() #Window doesn't open without this
