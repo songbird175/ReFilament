@@ -15,7 +15,7 @@ class MyFirstGUI:
         self.label.pack()
 
         self.greet_button = Button(master, text="Hiii!", font = self.font, command=self.greet, height = 2, width = 8)
-        self.greet_button.pack()
+        self.greet_button.place(relx = 0.5, rely = 0.5, anchor = CENTER) #puts the greet button in the center (taken from http://stackoverflow.com/questions/18736465/how-to-center-tkinter-wiget)
 
         self.close_button = Button(master, text="Exit", font = self.font, command=master.quit, height = 2, width = 6)
         self.close_button.pack(side = BOTTOM)
