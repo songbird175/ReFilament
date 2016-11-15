@@ -9,19 +9,17 @@ class MyFirstGUI:
         master.title("ReFilament PLA recycler") #shows up in the top bar
         master.geometry('800x480') #This seems to be good for the touchscreen, so I'm not gonna mess with it
 
-        # master.grid(padx=20, pady=20)
-
         self.header = tkFont.Font(family = 'Roboto', size = 36, weight = 'bold') #This font makes Isaac happy
         self.font = tkFont.Font(family = 'Roboto', size = 28, weight = 'bold')
 
         self.label = Label(master, text="This is our first GUI!", font = self.header) #sweet, this prints text above the buttons
-        self.label.pack()
+        self.label.place(relx = 0.5, rely = 0.05, anchor = N)
 
         self.greet_button = Button(master, text="Hiii!", font = self.font, command=self.greet, height = 2, width = 8)
         self.greet_button.place(relx = 0.5, rely = 0.5, anchor = CENTER) #puts the greet button in the center (taken from http://stackoverflow.com/questions/18736465/how-to-center-tkinter-wiget)
 
         self.close_button = Button(master, text="Exit", font = self.font, command=master.quit, height = 2, width = 6)
-        self.close_button.place(rely=1.0, relx=1.0, x=0, y=0, anchor=SE) #exit button in bottom right corner (taken from http://stackoverflow.com/questions/25396197/tkinter-put-a-widget-in-the-lower-right-corner-using-place)
+        self.close_button.place(relx=0.95, rely=0.95, anchor=SE) #exit button in bottom right corner (taken from http://stackoverflow.com/questions/25396197/tkinter-put-a-widget-in-the-lower-right-corner-using-place)
 
     def greet(self):
         print("Hey there, lovely human!")
