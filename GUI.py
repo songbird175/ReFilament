@@ -9,9 +9,12 @@ class MyFirstGUI:
         master.title("ReFilament PLA recycler") #shows up in the top bar
         master.geometry('800x480') #This seems to be good for the touchscreen, so I'm not gonna mess with it
 
-        self.font = tkFont.Font(family = 'Roboto', size = 24, weight = 'bold') #This font makes Isaac happy
+        # master.grid(padx=20, pady=20)
 
-        self.label = Label(master, text="This is our first GUI!", font = self.font) #sweet, this prints text above the buttons
+        self.header = tkFont.Font(family = 'Roboto', size = 36, weight = 'bold') #This font makes Isaac happy
+        self.font = tkFont.Font(family = 'Roboto', size = 28, weight = 'bold')
+
+        self.label = Label(master, text="This is our first GUI!", font = self.header) #sweet, this prints text above the buttons
         self.label.pack()
 
         self.greet_button = Button(master, text="Hiii!", font = self.font, command=self.greet, height = 2, width = 8)
