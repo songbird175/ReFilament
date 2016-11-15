@@ -2,24 +2,29 @@ from Tkinter import *
 import tkFont
 import sys
 
-win = Tk()
+#the following code is adapted from http://python-textbok.readthedocs.io/en/1.0/Introduction_to_GUI_Programming.html
+class MyFirstGUI:
+    def __init__(self, master):
+        self.master = master
+        master.title("ReFilament PLA recycler") #shows up in the top bar
+        master.geometry('800x480') #This seems to be good for the touchscreen, so I'm not gonna mess with it
 
-myFont = tkFont.Font(family = 'Roboto', size = 36, weight = 'bold') #this font makes Isaac happy
+        self.font = tkFont.Font(family = 'Roboto', size = 36, weight = 'bold') #This font makes Isaac happy
 
-def helloPress():
-	print("Hey there, lovely human!") #prints to the console. I'm curious about printing to the GUI itself...but that might not be relevant right now
+        self.label = Label(master, text="This is our first GUI!", font = self.font) #sweet, this prints text above the buttons
+        self.label.pack()
 
-def exitProgram():
-	print("Exit button pressed")
-	win.quit() #closes the window
+        self.greet_button = Button(master, text="Hiii!", font = self.font, command=self.greet, height = 2, width = 8)
+        self.greet_button.pack()
 
-win.title("ReFilament PLA recycler") #shows up on the top bar
-win.geometry('800x480') #This seems to be good for the touchscreen, so I'm not gonna mess with it
+        self.close_button = Button(master, text="Exit", font = self.font, command=master.quit, height = 2, width = 6)
+        self.close_button.pack(side = BOTTOM)
 
-exitButton = Button(win, text = "Exit", font = myFont, command = exitProgram, height = 2, width = 6)
-exitButton.pack(side = BOTTOM) #if not attached to a specific side, Exit will appear on top as the first button initialized
+    def greet(self):
+        print("Hey there, lovely human!")
 
-helloButton = Button(win, text = "Hiii!", font = myFont, command = helloPress, height = 2, width = 8)
-helloButton.pack() #initializes the button at the top b/c it's the first button not attached to a side
 
-mainloop() #Window doesn't open without this
+
+root = Tk()
+my_gui = MyFirstGUI(root)
+root.mainloop()
