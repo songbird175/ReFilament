@@ -13,8 +13,8 @@ def exitProgram():
 	print("Exit button pressed")
 	win.quit()
 
-win.title("First GUI")
-win.geometry('800x480')
+win.title("ReFilament PLA recycler") #shows up on the top bar
+win.geometry('800x480') #This seems to be good for the touchscreen, so I'm not gonna mess with it
 
 exitButton = Button(win, text = "Exit", font = myFont, command = exitProgram, height = 2, width = 6)
 exitButton.pack(side = BOTTOM) #if not attached to a specific side, Exit will appear on top as the first button initialized
