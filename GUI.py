@@ -1,40 +1,26 @@
-from Tkinter import *
-import ttk
-import tkFont
 import sys
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 
-#the following code is adapted from http://python-textbok.readthedocs.io/en/1.0/Introduction_to_GUI_Programming.html
-class HomePageGUI:
-    def __init__(self, master):
-        self.master = master
-        master.title("ReFilament PLA recycler") #shows up in the top bar
-        master.geometry('800x480') #This seems to be good for the touchscreen, so I'm not gonna mess with it
-
-        master.configure(background = '#d8feff')
-
-        self.header = tkFont.Font(family = 'Roboto', size = 30, weight = 'bold') #This font makes Isaac happy
-        self.start_font = tkFont.Font(family = 'Roboto', size = 26, weight = 'bold')
-        self.log_font = tkFont.Font(family = 'Roboto', size = 18, weight = 'bold')
-
-        self.label = Label(master, text="So you want to recycle filament...", font = self.header, background = '#d8feff') #prints text above the buttons
-        self.label.place(relx = 0.5, rely = 0.2, anchor = N)
-
-        # self.start_button = ttk.Button(master, text="Let's get started!", font = self.start_font, command=self.start, height = 2, width = 16, background = '#06d109')
-        self.start_button = ttk.Button(master, text="Let's get started!", command=lambda: self.start)
-        self.start_button.place(relx = 0.5, rely = 0.5, anchor = CENTER) #puts the start button in the center
-
-        # self.log_button = ttk.Button(master, text="Check the log", font = self.log_font, command=self.log_go, height = 1, width = 12, background = '#06d109')
-        self.log_button = ttk.Button(master, text="Check the log", command=lambda: self.log_go)
-        self.log_button.place(relx=0.97, rely=0.95, anchor=SE) #log button in bottom right corner
-
-    def start(self):
-        print("This will bring you to the next page.")
-
-    def log_go(self):
-    	print("This will bring you to the log.")
-
-
-
-root = Tk()
-my_gui = HomePageGUI(root)
-root.mainloop()
+def window():
+   app = QApplication(sys.argv)
+   win = QWidget()
+   win.resize(800, 480)
+	
+   prompt = QLabel()
+   prompt.setText("So you want to recycle filament...")
+   prompt.setAlignment(Qt.AlignCenter)
+	
+   vbox = QVBoxLayout()
+   vbox.addWidget(prompt)
+   # vbox.addStretch()
+	
+   prompt.setOpenExternalLinks(True)
+   win.setLayout(vbox)
+	
+   win.setWindowTitle("ReFilament")
+   win.show()
+   sys.exit(app.exec_())
+	
+if __name__ == '__main__':
+   window()
