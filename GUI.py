@@ -1,25 +1,37 @@
-from Tkinter import *
-import tkFont
-import sys
+# import sys
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 
-win = Tk()
+class HomePage(QWidget):
+	def __init__(self):
+		QWidget.__init__(self)
+		self.setGeometry(0, 0, 800, 480)
 
-myFont = tkFont.Font(family = 'Roboto', size = 36, weight = 'bold') #this font makes Isaac happy
+		self.prompt = QLabel()
+		self.prompt.setText("So you want to recycle filament...")
+		self.prompt.setAlignment(Qt.AlignCenter)
+		self.prompt.setOpenExternalLinks(True)
 
-def helloPress():
-	print("Hey there, lovely human!") #prints to the console. I'm curious about printing to the GUI itself...but that might not be relevant right now
+		self.next_button = QPushButton("Let's get started!")
+		self.next_button.setCheckable(True)
 
-def exitProgram():
-	print("Exit button pressed")
-	win.quit() #closes the window
+		self.log_button = QPushButton("Check the log")
+		self.log_button.setCheckable(True)
 
-win.title("ReFilament PLA recycler") #shows up on the top bar
-win.geometry('800x480') #This seems to be good for the touchscreen, so I'm not gonna mess with it
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.setColumnStretch(0, 1)
+		grid.setColumnStretch(10, 1)
+		grid.addWidget(self.log_button, 2, 10)
+		grid.addWidget(self.prompt, 5, 5)
+		grid.addWidget(self.next_button, 6, 5)
 
-exitButton = Button(win, text = "Exit", font = myFont, command = exitProgram, height = 2, width = 6)
-exitButton.pack(side = BOTTOM) #if not attached to a specific side, Exit will appear on top as the first button initialized
+		self.setWindowTitle("ReFilament")
 
-helloButton = Button(win, text = "Hiii!", font = myFont, command = helloPress, height = 2, width = 8)
-helloButton.pack() #initializes the button at the top b/c it's the first button not attached to a side
+if __name__ == '__main__':
 
-mainloop() #Window doesn't open without this
+    import sys
+    app = QApplication(sys.argv)
+    window = HomePage()
+    window.show()
+    sys.exit(app.exec_())
