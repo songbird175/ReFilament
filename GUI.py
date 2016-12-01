@@ -1,4 +1,4 @@
-# import sys
+import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -11,7 +11,6 @@ class HomePage(QWidget):
 		self.prompt.setText("So you want to recycle filament...")
 
 		self.next_button = QPushButton("Let's get started!")
-		self.next_button.clicked.connect(self.start)
 		self.next_button.setCheckable(True)
 
 		self.log_button = QPushButton("Check the log")
@@ -26,9 +25,6 @@ class HomePage(QWidget):
 		grid.addWidget(self.next_button, 6, 5)
 
 		self.setWindowTitle("ReFilament")
-
-	def start(self):
-		
 
 class FormPage(QWidget):
 	def __init__(self):
