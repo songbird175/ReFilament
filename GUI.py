@@ -5,7 +5,7 @@ from PyQt4.QtGui import *
 class HomePage(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setGeometry(800, 480, 800, 480)
+		self.setGeometry(0, 0, 800, 480)
 
 		self.prompt = QLabel()
 		self.prompt.setText("So you want to recycle filament...")
@@ -18,16 +18,13 @@ class HomePage(QWidget):
 		self.log_button = QPushButton("Check the log")
 		self.log_button.setCheckable(True)
 
-		hbox = QHBoxLayout(self)
-		hbox.addStretch(1)
-		hbox.addWidget(self.log_button)
-
-		vbox = QVBoxLayout(self)
-		vbox.addLayout(hbox)
-		vbox.addStretch()
-		vbox.addWidget(self.prompt)
-		vbox.addWidget(self.next_button)
-		vbox.addStretch()
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.setColumnStretch(0, 1)
+		grid.setColumnStretch(10, 1)
+		grid.addWidget(self.log_button, 2, 10)
+		grid.addWidget(self.prompt, 5, 5)
+		grid.addWidget(self.next_button, 6, 5)
 
 		self.setWindowTitle("ReFilament")
 
