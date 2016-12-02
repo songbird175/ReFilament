@@ -50,15 +50,15 @@ class HomePage(QStackedWidget):
         self.log_button = QPushButton("Check the log")
         self.log_button.setCheckable(True)
 
-        # grid = QGridLayout(self)
-        # grid.setSpacing(10)
-        # grid.setColumnStretch(0, 1)
-        # grid.setColumnStretch(10, 1)
-        # grid.addWidget(self.log_button, 2, 10)
-        # grid.addWidget(self.prompt, 5, 5)
-        # grid.addWidget(self.next_button, 6, 5)
+        grid = QGridLayout(self)
+        grid.setSpacing(10)
+        grid.setColumnStretch(0, 1)
+        grid.setColumnStretch(10, 1)
+        grid.addWidget(self.log_button, 2, 10)
+        grid.addWidget(self.prompt, 5, 5)
+        grid.addWidget(self.next_button, 6, 5)
 
-        self.addWidget(self.prompt)
+        # self.addWidget(self.prompt)
 
         self.setWindowTitle("ReFilament")
 

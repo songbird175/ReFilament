@@ -11,9 +11,10 @@ class Window(QtGui.QMainWindow):
 
         self.button.clicked.connect(self.__next_page)
 
-        layout = QtGui.QVBoxLayout()
-        layout.addWidget(self.stacked_widget)
-        layout.addWidget(self.button)
+        layout = QtGui.QGridLayout()
+        layout.setSpacing(10)
+        layout.addWidget(self.stacked_widget, 3, 5)
+        layout.addWidget(self.button, 6, 5)
 
         widget = QtGui.QWidget()
         widget.setLayout(layout)
