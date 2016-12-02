@@ -4,6 +4,7 @@ from PyQt4 import QtGui, QtCore
 class Window(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
+        self.setGeometry(0, 0, 200, 200)
 
         self.stacked_widget = QtGui.QStackedWidget()
         self.button = QtGui.QPushButton("Next")
