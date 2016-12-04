@@ -3,6 +3,8 @@ volatile float desiredSpeed;
 volatile int onOff;
 volatile int P;
 volatile float I;
+float currentTemperature = 20;
+float filamentDiameter;
 
 
 byte serialBuffer[256];
@@ -16,7 +18,18 @@ void setup()
 void loop()
 {
   // put your main code here, to run repeatedly:
+
   readSerialData();
+  if (currentTemperature < desiredTemp)
+  {
+    currentTemperature = currentTemperature + random(3, 6);
+  }
+  else
+  {
+    currentTemperature = currentTemperature - random(2, 4);
+  }
+
+  filamentDiameter = random(10);
 
   printSerialData();
 }
@@ -24,15 +37,9 @@ void loop()
 void printSerialData()
 {
   // printSerialData prints the
-  Serial.print(desiredTemp); //
+  Serial.print(currentTemperature); //
   Serial.print(",");
-  Serial.print(desiredSpeed); //
-  Serial.print(",");
-  Serial.print(onOff); //
-  Serial.print(",");
-  Serial.print(P); //
-  Serial.print(",");
-  Serial.println(I); //
+  Serial.println(filamentDiameter); //
 }
 
 void readSerialData()
