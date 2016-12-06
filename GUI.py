@@ -22,6 +22,7 @@ class Main(QMainWindow):
 		self.centralWidget.addWidget(self.home_widget)
 		#add functionality to any applicable widgets that may be within the QWidgets
 		self.home_widget.next_button.clicked.connect(self.form_page)
+		# self.home_widget.log_button.clicked.connect(self.log_page)
 
 		self.form_widget = FormPage(self)
 		self.centralWidget.addWidget(self.form_widget)
@@ -31,6 +32,13 @@ class Main(QMainWindow):
 		self.preheat_widget = PreheatPage(self)
 		self.centralWidget.addWidget(self.preheat_widget)
 		# self.preheat_widget.stop_button.clicked.connect(self.support)
+		self.preheat_widget.start_button.clicked.connect(self.start)
+		self.preheat_widget.stop_button.clicked.connect(self.go_home)
+
+		self.start_widget = StartPage(self)
+		self.centralWidget.addWidget(self.start_widget)
+		# self.start_widget.added_button.clicked.connect(self.status)
+		self.start_widget.stop_button.clicked.connect(self.go_home)
 
 		#set the home page QWidget as the current widget so the home page appears upon app startup
 		self.centralWidget.setCurrentWidget(self.home_widget)
@@ -44,8 +52,14 @@ class Main(QMainWindow):
 	def preheat(self):
 		self.centralWidget.setCurrentWidget(self.preheat_widget)
 
+	def start(self):
+		self.centralWidget.setCurrentWidget(self.start_widget)
+
 	# def support_page(self):
 	# 	self.centralWidget.setCurrentWidget(self.support_widget)
+
+	# def log_page(self):
+	# 	self.centralWidget.setCurrentWidget(self.log_widget)
 
 
 class HomePage(QWidget):
@@ -116,9 +130,29 @@ class PreheatPage(QWidget):
 
 		self.stop_button = QPushButton("Stop")
 
+		#adding a button to get to the start page since we don't currently have the setup to have data switch it over
+		self.start_button = QPushButton("Start page")
+
 		grid = QGridLayout(self)
 		grid.setSpacing(10)
 		grid.addWidget(message, 5, 5)
+		grid.addWidget(self.stop_button, 7, 5)
+		grid.addWidget(self.start_button, 8, 5) #this will go away once we connect the GUI to the thermistor
+
+class StartPage(QWidget):
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent) 
+
+		message = QLabel("Start adding filament!")
+		message.setAlignment(Qt.AlignCenter)
+
+		self.added_button = QPushButton("Ok, I've added some!")
+		self.stop_button = QPushButton("Stop")
+
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.addWidget(message, 3, 5)
+		grid.addWidget(self.added_button, 5, 5)
 		grid.addWidget(self.stop_button, 7, 5)
 
 
