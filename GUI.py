@@ -37,8 +37,13 @@ class Main(QMainWindow):
 
 		self.start_widget = StartPage(self)
 		self.centralWidget.addWidget(self.start_widget)
-		# self.start_widget.added_button.clicked.connect(self.status)
+		self.start_widget.added_button.clicked.connect(self.status)
 		self.start_widget.stop_button.clicked.connect(self.go_home)
+
+		self.status_widget = StatusPage(self)
+		self.centralWidget.addWidget(self.status_widget)
+		# self.status_widget.no_more_button.clicked.connect(self.support)
+		self.status_widget.stop_button.clicked.connect(self.go_home)
 
 		#set the home page QWidget as the current widget so the home page appears upon app startup
 		self.centralWidget.setCurrentWidget(self.home_widget)
@@ -54,6 +59,9 @@ class Main(QMainWindow):
 
 	def start(self):
 		self.centralWidget.setCurrentWidget(self.start_widget)
+
+	def status(self):
+		self.centralWidget.setCurrentWidget(self.status_widget)
 
 	# def support_page(self):
 	# 	self.centralWidget.setCurrentWidget(self.support_widget)
@@ -153,6 +161,28 @@ class StartPage(QWidget):
 		grid.setSpacing(10)
 		grid.addWidget(message, 3, 5)
 		grid.addWidget(self.added_button, 5, 5)
+		grid.addWidget(self.stop_button, 7, 5)
+
+class StatusPage(QWidget):
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent) 
+
+		temp = QLabel("Current temperature: ")
+		temp.setAlignment(Qt.AlignCenter)
+		time = QLabel("Time elapsed: ")
+		time.setAlignment(Qt.AlignCenter)
+		diameter = QLabel("Filament diameter: ")
+		diameter.setAlignment(Qt.AlignCenter)
+
+		self.no_more_button = QPushButton("No more filament!")
+		self.stop_button = QPushButton("Stop")
+
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.addWidget(temp, 3, 2)
+		grid.addWidget(time, 4, 2)
+		grid.addWidget(diameter, 5, 2)
+		grid.addWidget(self.no_more_button, 6, 5)
 		grid.addWidget(self.stop_button, 7, 5)
 
 
