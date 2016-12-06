@@ -26,6 +26,11 @@ class Main(QMainWindow):
 		self.form_widget = FormPage(self)
 		self.centralWidget.addWidget(self.form_widget)
 		self.form_widget.back_button.clicked.connect(self.go_home)
+		self.form_widget.preheat_button.clicked.connect(self.preheat)
+
+		self.preheat_widget = PreheatPage(self)
+		self.centralWidget.addWidget(self.preheat_widget)
+		# self.preheat_widget.stop_button.clicked.connect(self.support)
 
 		#set the home page QWidget as the current widget so the home page appears upon app startup
 		self.centralWidget.setCurrentWidget(self.home_widget)
@@ -33,8 +38,14 @@ class Main(QMainWindow):
 	def form_page(self):
 		self.centralWidget.setCurrentWidget(self.form_widget)
 
-	def go_home(self, current_widget):
+	def go_home(self):
 		self.centralWidget.setCurrentWidget(self.home_widget)
+
+	def preheat(self):
+		self.centralWidget.setCurrentWidget(self.preheat_widget)
+
+	# def support_page(self):
+	# 	self.centralWidget.setCurrentWidget(self.support_widget)
 
 
 class HomePage(QWidget):
@@ -80,10 +91,7 @@ class FormPage(QWidget):
 		statusEdit = QLineEdit()
 
 		self.back_button = QPushButton("Back")
-		self.back_button.setCheckable(True)
-
 		self.preheat_button = QPushButton("Preheat")
-		self.preheat_button.setCheckable(True)
 
 		grid = QGridLayout(self)
 		grid.setSpacing(10)
@@ -98,6 +106,20 @@ class FormPage(QWidget):
 		grid.addWidget(statusEdit, 4, 2)
 		grid.addWidget(self.back_button, 8, 0)
 		grid.addWidget(self.preheat_button, 8, 10)
+
+class PreheatPage(QWidget):
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent) 
+
+		message = QLabel("Preheating...")
+		message.setAlignment(Qt.AlignCenter)
+
+		self.stop_button = QPushButton("Stop")
+
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.addWidget(message, 5, 5)
+		grid.addWidget(self.stop_button, 7, 5)
 
 
 if __name__ == '__main__':
