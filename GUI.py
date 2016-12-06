@@ -1,21 +1,48 @@
-# import sys
+import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+class Main(QMainWindow):
+	def __init__(self, parent = None):
+		super(Main, self).__init__()
+
+        # main layout
+		self.mainLayout = QVBoxLayout()
+		self.setGeometry(0, 0, 800, 480)
+
+		# central widget
+		self.centralWidget = QStackedWidget()
+		self.setCentralWidget(self.centralWidget)
+
+		self.home_widget = HomePage(self)
+		self.form_widget = FormPage(self)
+
+		self.centralWidget.addWidget(self.home_widget)
+		self.centralWidget.addWidget(self.form_widget)
+		self.centralWidget.setCurrentWidget(self.home_widget)
+
+		self.home_widget.next_button.clicked.connect(self.next)
+		self.form_widget.back_button.clicked.connect(self.go_home)
+
+
+	def next(self):
+		self.centralWidget.setCurrentWidget(self.form_widget)
+
+	def go_home(self, current_widget):
+		self.centralWidget.setCurrentWidget(self.home_widget)
+
+
 class HomePage(QWidget):
-	def __init__(self):
-		QWidget.__init__(self)
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent)
 		self.setGeometry(0, 0, 800, 480)
 
 		self.prompt = QLabel()
 		self.prompt.setText("So you want to recycle filament...")
 
 		self.next_button = QPushButton("Let's get started!")
-		self.next_button.clicked.connect(self.start)
-		self.next_button.setCheckable(True)
 
 		self.log_button = QPushButton("Check the log")
-		self.log_button.setCheckable(True)
 
 		grid = QGridLayout(self)
 		grid.setSpacing(10)
@@ -27,12 +54,9 @@ class HomePage(QWidget):
 
 		self.setWindowTitle("ReFilament")
 
-	def start(self):
-		
-
 class FormPage(QWidget):
-	def __init__(self):
-		QWidget.__init__(self)
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent)
 		self.setGeometry(0, 0, 800, 480)
 
 		self.name_title = QLabel("Name")
@@ -76,6 +100,6 @@ if __name__ == '__main__':
 
     import sys
     app = QApplication(sys.argv)
-    window = HomePage()
+    window = Main()
     window.show()
     sys.exit(app.exec_())
