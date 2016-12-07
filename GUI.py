@@ -41,15 +41,21 @@ class Main(QMainWindow):
 
 		self.status_widget = StatusPage(self)
 		self.centralWidget.addWidget(self.status_widget)
-		# self.status_widget.no_more_button.clicked.connect(self.watch_page)
+		self.status_widget.no_more_button.clicked.connect(self.watch_page)
 		self.status_widget.stop_button.clicked.connect(self.support_page)
 
 		self.support_widget = SupportPage(self)
 		self.centralWidget.addWidget(self.support_widget)
 		# self.support_widget.submit_button.clicked.connect(self.log_and_add)
-		# self.support_widget.submit_button.clicked.connect(self.watch_page) #just until we can switch using data
+		self.support_widget.submit_button.clicked.connect(self.watch_page) #just until we can switch using data
 
-		# self.watch_widget = WatchPage(self)
+		self.watch_widget = WatchPage(self)
+		self.centralWidget.addWidget(self.watch_widget)
+		# self.watch_widget.done_button.clicked.connect(self.cool)
+
+		# self.cool_widget = CoolPage(self)
+		# self.centralWidget.addWidget(self.cool_widget)
+		# self.cool_widget
 
 		#set the home page QWidget as the current widget so the home page appears upon app startup
 		self.centralWidget.setCurrentWidget(self.home_widget)
@@ -74,6 +80,9 @@ class Main(QMainWindow):
 
 	def watch_page(self):
 		self.centralWidget.setCurrentWidget(self.watch_widget)
+
+	def cool(self):
+		self.centralWidget.setCurrentWidget(self.cool_widget)
 
 	# def log_page(self):
 	# 	self.centralWidget.setCurrentWidget(self.log_widget)
@@ -211,8 +220,23 @@ class SupportPage(QWidget):
 		grid = QGridLayout(self)
 		grid.setSpacing(10)
 		grid.addWidget(stop_question, 5, 3)
-		grid.addWidget(stop_answer, 5, 7, 7, 7)
+		grid.addWidget(stop_answer, 5, 7)
 		grid.addWidget(self.submit_button, 7, 5)
+
+class WatchPage(QWidget):
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent) 
+
+		message = QLabel("Keep watching to make sure all of the filament is extruded!")
+		message.setAlignment(Qt.AlignCenter)
+
+		self.done_button = QPushButton("It's done!")
+
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.addWidget(message, 5, 5)
+		grid.addWidget(self.done_button, 7, 5)
+		
 
 
 if __name__ == '__main__':
