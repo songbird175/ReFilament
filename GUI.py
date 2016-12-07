@@ -22,8 +22,6 @@ class Main(QMainWindow):
 		self.motor_on_off = 0
 		#establish connection to the arduino upon app start
 		self.ser = serial.Serial('/dev/ttyACM0', 115200)
-		#gather data from the arduino
-		self.msg = self.ser.readline()
 
 		#instantiate a central widget, which will be the focus of the window
 		#using a QStackedWidget so we can change the view in the window from one QWidget to another
@@ -165,6 +163,9 @@ class Main(QMainWindow):
 	def bitsToNumberList(self):
 		"""This function parses out the raw arduino data
 		and appropriately distributes the information."""
+		#gather data from the arduino
+		self.msg = self.ser.readline()
+		
 		msg = self.msg.rstrip(b'\r\n')
 		msg = self.msg.rsplit(b',')
 
