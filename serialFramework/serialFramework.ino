@@ -13,6 +13,7 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  pinMode(0, INPUT);
 }
 
 void loop()
@@ -22,11 +23,11 @@ void loop()
   readSerialData();
   if (currentTemperature < desiredTemp)
   {
-    currentTemperature = currentTemperature + random(3, 6);
+    currentTemperature = currentTemperature;
   }
   else
   {
-    currentTemperature = currentTemperature - random(2, 4);
+    currentTemperature = currentTemperature;
   }
 
   filamentDiameter = random(10);
@@ -38,6 +39,8 @@ void printSerialData()
 {
   // printSerialData prints the
   Serial.print(currentTemperature); //
+  Serial.print(",");
+  Serial.print(digitalRead(0));
   Serial.print(",");
   Serial.println(filamentDiameter); //
 }
