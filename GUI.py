@@ -293,13 +293,29 @@ class DonePage(QWidget):
 
 class LogPage(QWidget):
 	def __init__(self, parent = None):
-		QWidget.__init__(self, parent) 
+		QWidget.__init__(self, parent)
+
+		self.model = QStandardItemModel(self)
+
+		table_layout = QTableView(self)
+		table_layout.setModel(self.model)
+		table_layout.horizontalHeader().setStretchLastSection(True)
+
+		with open('refilament_log.csv', 'rb') as csvfile:
+			log_reader = csv.reader(csvfile)
+			for row in log_reader:
+				items = [
+                    QStandardItem(field)
+                    for field in row
+                ]
+                self.model.appendRow(items)
 
 		self.home_button = QPushButton("Home")
 
 		grid = QGridLayout(self)
 		grid.setSpacing(10)
-		grid.addWidget(self.home_button, 5, 5)
+		grid.addWidget(table_layout)
+		grid.addWidget(self.home_button, 7, 5)
 
 
 if __name__ == '__main__':
