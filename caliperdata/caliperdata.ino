@@ -36,26 +36,7 @@ void setup() {
 }
 
 void loop() {  
-  
-  if(newValue) 
-  {
-   if(finalValue != previousValue) {
-     previousValue = finalValue;
-     Serial.println(finalValue,2);     
-   }
-   newValue = 0;
-  }
-  
- //The ISR Can't handle the arduino command millis()
- //because it uses interrupts to count. The ISR will 
- //set the clockFlag and the clockFlag will trigger 
- //a call the decode routine outside of an ISR.
- if(clockFlag == 1)
- {
-  clockFlag = 0;
-  decode();
- } 
-  
+
 }
 
 void decode(){
