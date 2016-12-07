@@ -26,7 +26,7 @@ void setup() {
   digitalWrite(SPL_PIN, LOW);
   digitalWrite(HTR_PIN, LOW);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Initiating vehicle...");
   start_millis = millis();
 

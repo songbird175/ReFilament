@@ -101,10 +101,11 @@ class Main(QMainWindow):
 		and switches to the Preheat Page QWidget so we can see that readout."""
 		self.heat_on_off = 1
 		self.ser.write(bytearray([self.heat_on_off, self.motor_on_off]))
-		while self.preheat_widget.current_temp < self.desired_temperature:
-			bitstoNumberList()
-			return self.preheat_widget.current_temp
 		self.centralWidget.setCurrentWidget(self.preheat_widget)
+		while int(self.preheat_widget.current_temp.text()) < self.desired_temperature:
+			self.bitsToNumberList()
+			print self.preheat_widget.current_temp
+			return self.preheat_widget.current_temp
 
 	def start(self):
 		self.motor_on_off = 1
@@ -115,7 +116,7 @@ class Main(QMainWindow):
 		"""This function switches the view to the Status Page and
 		populates it with data output."""
 		while self.status_widget.no_more_button.clicked == False and self.status_widget.stop_button.clicked == False:
-			bitstoNumberList()
+			self.bitsToNumberList()
 			return self.start_widget.current_temp, self.status_widget.time_elapse, self.status_widget.fil_diameter
 		self.centralWidget.setCurrentWidget(self.status_widget)
 
@@ -170,6 +171,7 @@ class Main(QMainWindow):
 		return_numbers = []
 
 		for number in msg:
+			print number
 			try:
 				return_numbers.append(int(number))
 			except:
@@ -251,7 +253,7 @@ class PreheatPage(QWidget):
 		message = QLabel("Preheating...")
 		message.setAlignment(Qt.AlignCenter)
 
-		self.current_temp = QLabel()
+		self.current_temp = QLabel("0")
 
 		self.stop_button = QPushButton("Stop")
 
