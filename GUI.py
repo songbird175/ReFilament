@@ -1,6 +1,7 @@
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+import csv
 
 #defining a class for the QMainWindow of the app. This window will always exist while the app is open
 class Main(QMainWindow):
@@ -22,7 +23,7 @@ class Main(QMainWindow):
 		self.centralWidget.addWidget(self.home_widget)
 		#add functionality to any applicable widgets that may be within the QWidgets
 		self.home_widget.next_button.clicked.connect(self.form_page)
-		# self.home_widget.log_button.clicked.connect(self.log_page)
+		self.home_widget.log_button.clicked.connect(self.log_page)
 
 		self.form_widget = FormPage(self)
 		self.centralWidget.addWidget(self.form_widget)
@@ -46,8 +47,8 @@ class Main(QMainWindow):
 
 		self.support_widget = SupportPage(self)
 		self.centralWidget.addWidget(self.support_widget)
-		# self.support_widget.submit_button.clicked.connect(self.log_and_add)
-		self.support_widget.submit_button.clicked.connect(self.watch_page) #just until we can switch using data
+		self.support_widget.submit_button.clicked.connect(self.log_and_add)
+		self.support_widget.submit_button.clicked.connect(self.go_home)
 
 		self.watch_widget = WatchPage(self)
 		self.centralWidget.addWidget(self.watch_widget)
@@ -59,7 +60,11 @@ class Main(QMainWindow):
 
 		self.done_widget = DonePage(self)
 		self.centralWidget.addWidget(self.done_widget)
-		# self.done_widget.log_button.clicked.connect(self.log_and_add)
+		self.done_widget.log_button.clicked.connect(self.log_and_add)
+
+		self.log_widget = LogPage(self)
+		self.centralWidget.addWidget(self.log_widget)
+		self.log_widget.home_button.clicked.connect(self.go_home)
 
 		#set the home page QWidget as the current widget so the home page appears upon app startup
 		self.centralWidget.setCurrentWidget(self.home_widget)
@@ -91,20 +96,31 @@ class Main(QMainWindow):
 	def done(self):
 		self.centralWidget.setCurrentWidget(self.done_widget)
 
-	# def log_page(self):
-	# 	self.centralWidget.setCurrentWidget(self.log_widget)
+	def log_page(self):
+		self.centralWidget.setCurrentWidget(self.log_widget)
 
-	# def log_and_add(self):
-	# 	#add info to the log somehow
-	# 	self.centralWidget.setCurrentWidget(self.log_widget)
+	def log_and_add(self):
+		name_text = self.form_widget.nameEdit.text()
+		date_text = self.form_widget.dateEdit.text()
+		amount_text = self.form_widget.amountEdit.text()
+		status_text = self.form_widget.statusEdit.text()
+		stop_explain = self.support_widget.stop_answer.text()
+		if stop_explain == "":
+			stop_explain = "None"
+		
+		with open('refilament_log.csv', 'a') as csvfile:
+			gui_info = csv.writer(csvfile)
+			gui_info.writerow([name_text, date_text, amount_text, status_text, stop_explain])
+
+		self.centralWidget.setCurrentWidget(self.log_widget)
+
 
 
 class HomePage(QWidget):
 	def __init__(self, parent = None):
 		QWidget.__init__(self, parent)
 
-		prompt = QLabel()
-		prompt.setText("So you want to recycle filament...")
+		prompt = QLabel("So you want to recycle filament...")
 
 		#make sure buttons are properties of the class so that they can be referenced from the QMainWindow
 		self.next_button = QPushButton("Let's get started!")
@@ -136,10 +152,10 @@ class FormPage(QWidget):
 		status_title = QLabel("Is your filament ground up?")
 		status_title.setAlignment(Qt.AlignCenter)
 
-		nameEdit = QLineEdit()
-		dateEdit = QLineEdit()
-		amountEdit = QLineEdit()
-		statusEdit = QLineEdit()
+		self.nameEdit = QLineEdit()
+		self.dateEdit = QLineEdit()
+		self.amountEdit = QLineEdit()
+		self.statusEdit = QLineEdit()
 
 		self.back_button = QPushButton("Back")
 		self.preheat_button = QPushButton("Preheat")
@@ -148,13 +164,13 @@ class FormPage(QWidget):
 		grid.setSpacing(10)
 		grid.setColumnStretch(2, 1)
 		grid.addWidget(name_title, 1, 0)
-		grid.addWidget(nameEdit, 1, 2)
+		grid.addWidget(self.nameEdit, 1, 2)
 		grid.addWidget(date_title, 2, 0)
-		grid.addWidget(dateEdit, 2, 2)
+		grid.addWidget(self.dateEdit, 2, 2)
 		grid.addWidget(amount_title, 3, 0)
-		grid.addWidget(amountEdit, 3, 2)
+		grid.addWidget(self.amountEdit, 3, 2)
 		grid.addWidget(status_title, 4, 0)
-		grid.addWidget(statusEdit, 4, 2)
+		grid.addWidget(self.statusEdit, 4, 2)
 		grid.addWidget(self.back_button, 8, 0)
 		grid.addWidget(self.preheat_button, 8, 10)
 
@@ -220,14 +236,14 @@ class SupportPage(QWidget):
 
 		stop_question = QLabel("What made you stop the recycling process?")
 		stop_question.setAlignment(Qt.AlignCenter)
-		stop_answer = QLineEdit()
+		self.stop_answer = QLineEdit()
 
 		self.submit_button = QPushButton("Submit")
 
 		grid = QGridLayout(self)
 		grid.setSpacing(10)
 		grid.addWidget(stop_question, 5, 3)
-		grid.addWidget(stop_answer, 5, 7)
+		grid.addWidget(self.stop_answer, 5, 7)
 		grid.addWidget(self.submit_button, 7, 5)
 
 class WatchPage(QWidget):
@@ -274,6 +290,32 @@ class DonePage(QWidget):
 		grid.setSpacing(10)
 		grid.addWidget(message, 5, 5)
 		grid.addWidget(self.log_button, 7, 5)
+
+class LogPage(QWidget):
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent)
+
+		self.model = QStandardItemModel(self)
+
+		table_layout = QTableView(self)
+		table_layout.setModel(self.model)
+		table_layout.horizontalHeader().setStretchLastSection(True)
+
+		with open('refilament_log.csv', 'rb') as csvfile:
+			log_reader = csv.reader(csvfile)
+			for row in log_reader:
+				items = [
+                    QStandardItem(field)
+                    for field in row
+                ]
+                self.model.appendRow(items)
+
+		self.home_button = QPushButton("Home")
+
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.addWidget(table_layout)
+		grid.addWidget(self.home_button, 7, 5)
 
 
 if __name__ == '__main__':
