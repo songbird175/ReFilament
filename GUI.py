@@ -51,11 +51,14 @@ class Main(QMainWindow):
 
 		self.watch_widget = WatchPage(self)
 		self.centralWidget.addWidget(self.watch_widget)
-		# self.watch_widget.done_button.clicked.connect(self.cool)
+		self.watch_widget.done_button.clicked.connect(self.cool)
 
-		# self.cool_widget = CoolPage(self)
-		# self.centralWidget.addWidget(self.cool_widget)
-		# self.cool_widget
+		self.cool_widget = CoolPage(self)
+		self.centralWidget.addWidget(self.cool_widget)
+		# self.cool_widget.done_button.clicked.connect(self.done)
+
+		# self.done_widget = DonePage(self)
+		# self.centralWidget.addWidget(self.done_widget)
 
 		#set the home page QWidget as the current widget so the home page appears upon app startup
 		self.centralWidget.setCurrentWidget(self.home_widget)
@@ -83,6 +86,9 @@ class Main(QMainWindow):
 
 	def cool(self):
 		self.centralWidget.setCurrentWidget(self.cool_widget)
+
+	def done(self):
+		self.centralWidget.setCurrentWidget(self.done_widget)
 
 	# def log_page(self):
 	# 	self.centralWidget.setCurrentWidget(self.log_widget)
@@ -237,6 +243,22 @@ class WatchPage(QWidget):
 		grid.addWidget(message, 5, 5)
 		grid.addWidget(self.done_button, 7, 5)
 		
+class CoolPage(QWidget):
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent) 
+
+		message = QLabel("Stick around while the system cools down.")
+		message.setAlignment(Qt.AlignCenter)
+		temp = QLabel("Current temperature:")
+		temp.setAlignment(Qt.AlignCenter)
+
+		self.done_button = QPushButton("It's done!") #just until we can switch using data
+
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.addWidget(message, 3, 5)
+		grid.addWidget(temp, 5, 3)
+		grid.addWidget(self.done_button, 7, 5)
 
 
 if __name__ == '__main__':
