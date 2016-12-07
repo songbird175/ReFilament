@@ -31,19 +31,25 @@ class Main(QMainWindow):
 
 		self.preheat_widget = PreheatPage(self)
 		self.centralWidget.addWidget(self.preheat_widget)
-		# self.preheat_widget.stop_button.clicked.connect(self.support)
+		self.preheat_widget.stop_button.clicked.connect(self.support_page)
 		self.preheat_widget.start_button.clicked.connect(self.start)
-		self.preheat_widget.stop_button.clicked.connect(self.go_home)
 
 		self.start_widget = StartPage(self)
 		self.centralWidget.addWidget(self.start_widget)
 		self.start_widget.added_button.clicked.connect(self.status)
-		self.start_widget.stop_button.clicked.connect(self.go_home)
+		self.start_widget.stop_button.clicked.connect(self.support_page)
 
 		self.status_widget = StatusPage(self)
 		self.centralWidget.addWidget(self.status_widget)
-		# self.status_widget.no_more_button.clicked.connect(self.support)
-		self.status_widget.stop_button.clicked.connect(self.go_home)
+		# self.status_widget.no_more_button.clicked.connect(self.watch_page)
+		self.status_widget.stop_button.clicked.connect(self.support_page)
+
+		self.support_widget = SupportPage(self)
+		self.centralWidget.addWidget(self.support_widget)
+		# self.support_widget.submit_button.clicked.connect(self.log_and_add)
+		# self.support_widget.submit_button.clicked.connect(self.watch_page) #just until we can switch using data
+
+		# self.watch_widget = WatchPage(self)
 
 		#set the home page QWidget as the current widget so the home page appears upon app startup
 		self.centralWidget.setCurrentWidget(self.home_widget)
@@ -63,10 +69,17 @@ class Main(QMainWindow):
 	def status(self):
 		self.centralWidget.setCurrentWidget(self.status_widget)
 
-	# def support_page(self):
-	# 	self.centralWidget.setCurrentWidget(self.support_widget)
+	def support_page(self):
+		self.centralWidget.setCurrentWidget(self.support_widget)
+
+	def watch_page(self):
+		self.centralWidget.setCurrentWidget(self.watch_widget)
 
 	# def log_page(self):
+	# 	self.centralWidget.setCurrentWidget(self.log_widget)
+
+	# def log_and_add(self):
+	# 	#add info to the log somehow
 	# 	self.centralWidget.setCurrentWidget(self.log_widget)
 
 
@@ -184,6 +197,22 @@ class StatusPage(QWidget):
 		grid.addWidget(diameter, 5, 2)
 		grid.addWidget(self.no_more_button, 6, 5)
 		grid.addWidget(self.stop_button, 7, 5)
+
+class SupportPage(QWidget):
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent) 
+
+		stop_question = QLabel("What made you stop the recycling process?")
+		stop_question.setAlignment(Qt.AlignCenter)
+		stop_answer = QLineEdit()
+
+		self.submit_button = QPushButton("Submit")
+
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.addWidget(stop_question, 5, 3)
+		grid.addWidget(stop_answer, 5, 7, 7, 7)
+		grid.addWidget(self.submit_button, 7, 5)
 
 
 if __name__ == '__main__':
