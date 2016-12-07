@@ -55,10 +55,11 @@ class Main(QMainWindow):
 
 		self.cool_widget = CoolPage(self)
 		self.centralWidget.addWidget(self.cool_widget)
-		# self.cool_widget.done_button.clicked.connect(self.done)
+		self.cool_widget.done_button.clicked.connect(self.done)
 
-		# self.done_widget = DonePage(self)
-		# self.centralWidget.addWidget(self.done_widget)
+		self.done_widget = DonePage(self)
+		self.centralWidget.addWidget(self.done_widget)
+		# self.done_widget.log_button.clicked.connect(self.log_and_add)
 
 		#set the home page QWidget as the current widget so the home page appears upon app startup
 		self.centralWidget.setCurrentWidget(self.home_widget)
@@ -259,6 +260,20 @@ class CoolPage(QWidget):
 		grid.addWidget(message, 3, 5)
 		grid.addWidget(temp, 5, 3)
 		grid.addWidget(self.done_button, 7, 5)
+
+class DonePage(QWidget):
+	def __init__(self, parent = None):
+		QWidget.__init__(self, parent) 
+
+		message = QLabel("All done! Enjoy your new filament!")
+		message.setAlignment(Qt.AlignCenter)
+
+		self.log_button = QPushButton("Check the log")
+
+		grid = QGridLayout(self)
+		grid.setSpacing(10)
+		grid.addWidget(message, 5, 5)
+		grid.addWidget(self.log_button, 7, 5)
 
 
 if __name__ == '__main__':
