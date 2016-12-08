@@ -15,9 +15,12 @@ ser = serial.Serial('/dev/ttyACM1', 9600) #my particular arduino doesn't like ot
 # In[3]:
 
 def getSerialData():
+    msg = ser.readline()
+    
     msg = msg.rstrip(b'\r\n')
     msg = msg.rsplit(b',')
-    
+    print("msg: {}".format(msg))
+    print(len(msg))
     if len(msg) == 2:
         return_numbers = []
 
@@ -40,7 +43,7 @@ motorOn=1
 
 # In[5]:
 
-while True:
+for i in range(200):
     # Serial write section
 #     print ("Python value sent: ")
 #     print ([heaterOn, motorOn])
@@ -48,11 +51,12 @@ while True:
 
     # Serial read section
     try:
-        msg = ser.readline() # read everything in the input buffer
-        parsedData = bitsToNumberList(msg)
-
+         # read everything in the input buffer
+        parsedData = getSerialData()
 #         print ("Parsed Data: {}".format(parsedData))
+        
     except:
+#         print ("didn't work {}".format(i))
         pass
 
 
