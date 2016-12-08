@@ -44,9 +44,9 @@ const byte dataPin = 3; //attach to data pin on calipers
 
 //Milliseconds to wait until starting a new value
 //This can be a different value depending on which flavor caliper you are using.
-const int cycleTime = 32; 
+const int cycleTime = 32;
 
-unsigned volatile int clockFlag = 0; 
+unsigned volatile int clockFlag = 0;
 
 long now = 0;
 long lastInterrupt = 0;
@@ -61,17 +61,17 @@ int currentBit = 1;
 
 // End caliper code setup
 // ##################################################################
- 
+
 
 void setup() {
   // put your setup code here, to run once:
-  pinMode(EXT_PIN, OUTPUT); // Extrusion Motor  
+  pinMode(EXT_PIN, OUTPUT); // Extrusion Motor
   pinMode(SPL_PIN, OUTPUT); // Spooling Motor
   pinMode(HTR_PIN, OUTPUT); // Heater
-  pinMode(clockPin, INPUT);  
-  pinMode(dataPin, INPUT); 
-  
-  
+  pinMode(clockPin, INPUT);
+  pinMode(dataPin, INPUT);
+
+
   //We have to take the value on the RISING edge instead of FALLING
   //because it is possible that the first bit will be missed and this
   //causes the value to be off by .01mm.
@@ -82,14 +82,15 @@ void setup() {
   digitalWrite(SPL_PIN, LOW);
   digitalWrite(HTR_PIN, LOW);
 
-  Serial.begin(115200);
+  Serial.begin(9600);
+  Serial.println("Initiating vehicle...");
   start_millis = millis();
 
 }
 
 void loop() {
-  //Serial communication: blocking read first to avoid swamping 
-  
+  //Serial communication: blocking read first to avoid swamping
+
   // Deal with temperature
   temp_mv = analogRead(0) / 1024.0 * 5000;
   if (temp_mv >= over_temp_mv) {
@@ -99,14 +100,14 @@ void loop() {
   if (heater_activated) {
     update_temp();
   }
-  
+
   analogWrite(SPL_PIN, 3);
   analogWrite(EXT_PIN, 0);
   delay(10);
 
   printSerialData();
   readSerialData();
-  
+
 }
 
 void heater_shutdown() {
@@ -121,7 +122,7 @@ void update_temp() {
   } else if (temp_deg >= 220) {
     digitalWrite(HTR_PIN, LOW);
     heater_on = false;
-  } 
+  }
 }
 
 void update_ex_power()
@@ -134,13 +135,13 @@ void update_ex_power()
 }
 
 void clockISR(){
- clockFlag = 1; 
+ clockFlag = 1;
 }
 
 void printSerialData()
 {
   // printSerialData prints the
-  Serial.print(heater_on); // 
+  Serial.print(heater_on); //
   Serial.print(",");
   Serial.println(motors_on);
 }
@@ -154,4 +155,3 @@ void readSerialData()
     motors_on = int(serialBuffer[1]); // The values for the on (1) or off (0) state
   }
 }
-
