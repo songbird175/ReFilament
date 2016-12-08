@@ -17,7 +17,7 @@ long start_millis = 0;
 // Heater control globals
 long over_temp_mv = 2480;
 long temp_mv = 0;
-long temp_deg = 87;
+int temp_deg = 87;
 byte temp_hi_limit = 210;
 byte temp_lo_limit = 190;
 boolean heater_activated = true;
@@ -82,7 +82,7 @@ void setup() {
   digitalWrite(SPL_PIN, LOW);
   digitalWrite(HTR_PIN, LOW);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   start_millis = millis();
 
 }
@@ -140,16 +140,14 @@ void clockISR(){
 void printSerialData()
 {
   // printSerialData prints the
-  Serial.print(temp_deg); // 
+  Serial.print(heater_on); // 
   Serial.print(",");
-  Serial.print(17); // 
-  Serial.print(",");
-  Serial.println(filament_diameter_mm * 5);
+  Serial.println(motors_on);
 }
 
 void readSerialData()
 {
-  if (Serial.available() > 1)
+  if (Serial.available() > 0)
   {
     Serial.readBytes(serialBuffer, 256); // read 256 bytes from serial
     heater_on = int(serialBuffer[0]); // The values for the desiredTemp should be between 0 - 255 (size of byte)
