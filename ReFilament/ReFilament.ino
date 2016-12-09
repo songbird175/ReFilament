@@ -1,7 +1,10 @@
 // Set up global variables
-const byte EXT_PIN = 9;
+const byte EXT_PIN = 11;
 const byte SPL_PIN = 10;
-const byte HTR_PIN = 11;
+const byte HTR_PIN = 9;
+const byte ENBL_PIN = 4;
+const byte HTR_LED = 7;
+const byte HOT_LED = 6;
 
 // Serial input parameter editing for PID
 boolean input_complete = false;
@@ -68,6 +71,7 @@ void setup() {
   pinMode(EXT_PIN, OUTPUT); // Extrusion Motor  
   pinMode(SPL_PIN, OUTPUT); // Spooling Motor
   pinMode(HTR_PIN, OUTPUT); // Heater
+  pinMode(ENBL_PIN, OUTPUT); // Power Supply Enable
   pinMode(clockPin, INPUT);  
   pinMode(dataPin, INPUT); 
   
@@ -81,6 +85,9 @@ void setup() {
   digitalWrite(EXT_PIN, LOW);
   digitalWrite(SPL_PIN, LOW);
   digitalWrite(HTR_PIN, LOW);
+  digitalWrite(ENBL_PIN, LOW);
+  delay(6000);
+  digitalWrite(ENBL_PIN, HIGH);
 
   Serial.begin(9600);
   start_millis = millis();
@@ -101,7 +108,7 @@ void loop() {
   }
   
   analogWrite(SPL_PIN, 3);
-  analogWrite(EXT_PIN, 0);
+  analogWrite(EXT_PIN, 40);
   delay(10);
 
   printSerialData();
