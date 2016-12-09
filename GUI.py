@@ -3,6 +3,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import csv
 import serial
+import time
 
 #defining a class for the QMainWindow of the app. This window will always exist while the app is open
 class Main(QMainWindow):
@@ -21,7 +22,7 @@ class Main(QMainWindow):
 		self.heat_on_off = 0
 		self.motor_on_off = 0
 		#establish connection to the arduino upon app start
-		self.ser = serial.Serial('/dev/ttyACM0', 115200)
+		self.ser = serial.Serial('/dev/ttyACM1', 9600)
 
 		#instantiate a central widget, which will be the focus of the window
 		#using a QStackedWidget so we can change the view in the window from one QWidget to another
@@ -97,13 +98,18 @@ class Main(QMainWindow):
 		"""Pressing the preheat button turns on the system.
 		It also initializes the temperature readout,
 		and switches to the Preheat Page QWidget so we can see that readout."""
+		self.centralWidget.setCurrentWidget(self.preheat_widget)
+		return
+		time.sleep(10)
+
 		self.heat_on_off = 1
 		self.ser.write(bytearray([self.heat_on_off, self.motor_on_off]))
-		self.centralWidget.setCurrentWidget(self.preheat_widget)
-		while int(self.preheat_widget.current_temp.text()) < self.desired_temperature:
-			self.bitsToNumberList()
-			print self.preheat_widget.current_temp
-			return self.preheat_widget.current_temp
+		# while int(self.preheat_widget.current_temp.text()) < self.desired_temperature:
+		for i in range(200):
+			self.getSerialData()
+			self.heat_on_off += 1 
+			print self.preheat_widget.current_temp.text()
+			# return self.preheat_widget.current_temp
 
 	def start(self):
 		self.motor_on_off = 1
@@ -160,29 +166,33 @@ class Main(QMainWindow):
 
 		self.centralWidget.setCurrentWidget(self.log_widget)
 
-	def bitsToNumberList(self):
+
+	def getSerialData(self):
 		"""This function parses out the raw arduino data
 		and appropriately distributes the information."""
-		#gather data from the arduino
-		self.msg = self.ser.readline()
-		
-		msg = self.msg.rstrip(b'\r\n')
-		msg = self.msg.rsplit(b',')
+		msg = self.ser.readline()
 
-		return_numbers = []
+		msg = msg.rstrip(b'\r\n')
+		msg = msg.rsplit(b',')
+		print("msg: {}".format(msg))
+		print("length of message: {}".format(len(msg)))
+		if len(msg) == 2:
+			return_strings = []
 
-		for number in msg:
-			print number
-			try:
-				return_numbers.append(int(number))
-			except:
-				return_numbers.append(float(number))
+			for string in msg:
+				try:
+					return_strings.append(str(int(string)))
+				except:
+					return_strings.append("7")
 
-		self.preheat_widget.current_temp = str(return_numbers[0])
-		self.status_widget.current_temp = str(return_numbers[0])
-		self.status_widget.fil_diameter = str(return_numbers[1])
-		self.status_widget.time_elapse = str(return_numbers[2])
-		self.cool_widget.cool_temp = str(return_numbers[0])
+			self.preheat_widget.current_temp.setText(return_strings[0])
+			self.status_widget.current_temp.setText(return_strings[0])
+			self.status_widget.fil_diameter.setText(return_strings[1])
+			# self.status_widget.time_elapse.setText(return_strings[2])
+			self.cool_widget.cool_temp.setText(return_strings[0])
+		else:
+		    print "didn't work :( getSerialData" #error message which indicates that python recieved a wrong len msg
+
 
 
 
