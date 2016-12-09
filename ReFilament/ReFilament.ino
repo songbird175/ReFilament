@@ -6,36 +6,43 @@ const byte ENBL_PIN = 4;
 const byte HTR_LED = 7;
 const byte HOT_LED = 6;
 
+
 // Serial input parameter editing for PID
 boolean input_complete = false;
 float input_param = 0;
 String input = "";
 
+
 // Extruder motor globals
 boolean extruder_active = 1;
 byte ex_power = 80;
 
+
+// Time related
 long start_millis = 0;
+
 
 // Heater control globals
 long over_temp_mv = 2480;
 long temp_mv = 0;
-long temp_deg = 87;
+int temp_deg = 87;
 byte temp_hi_limit = 210;
 byte temp_lo_limit = 190;
-boolean heater_activated = true;
+bool heater_on = false;
 
 // Spooling control globals
 byte spl_kp = 0;
 byte spl_ki = 0;
 byte spl_kd = 0;
-long filament_diameter_mm = 3;
+
 
 // Serial variables
-int desiredTemp;
 byte serialBuffer[256];
-int heater_on = 0;
-int motors_on = 0;
+byte heater_activated = 0;
+byte motors_activated = 0;
+int current_temp = 200; // in degrees celcius 
+int current_diam = 1750; // in micrometers
+
 
 /*
  * ##################################################################
@@ -118,7 +125,7 @@ void loop() {
 
 void heater_shutdown() {
   digitalWrite(HTR_PIN, LOW);
-  heater_activated = false;
+  heater_activated = 0;
 }
 
 void update_temp() {
@@ -147,20 +154,18 @@ void clockISR(){
 void printSerialData()
 {
   // printSerialData prints the
-  Serial.print(temp_deg); // 
+  Serial.print(current_temp); // 
   Serial.print(",");
-  Serial.print(17); // 
-  Serial.print(",");
-  Serial.println(filament_diameter_mm * 5);
+  Serial.println(current_diam);
 }
 
 void readSerialData()
 {
-  if (Serial.available() > 1)
+  if (Serial.available() > 0)
   {
     Serial.readBytes(serialBuffer, 256); // read 256 bytes from serial
-    heater_on = int(serialBuffer[0]); // The values for the desiredTemp should be between 0 - 255 (size of byte)
-    motors_on = int(serialBuffer[1]); // The values for the on (1) or off (0) state
+    heater_activated = byte(serialBuffer[0]); // The values for the desiredTemp should be between 0 - 255 (size of byte)
+    motors_activated = byte(serialBuffer[1]); // The values for the on (1) or off (0) state
   }
 }
 

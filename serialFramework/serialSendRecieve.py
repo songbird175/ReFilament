@@ -1,61 +1,70 @@
 
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 import serial
 import time
 
 
-# In[ ]:
+# In[2]:
 
-ser = serial.Serial('/dev/ttyACM0', 9600)
+ser = serial.Serial('/dev/ttyACM0', 9600) #my particular arduino doesn't like other baud rates
 
 
-# In[ ]:
+# In[3]:
 
-def bitsToNumberList(msg):
+def getSerialData():
+    msg = ser.readline()
+    
     msg = msg.rstrip(b'\r\n')
     msg = msg.rsplit(b',')
+    print("msg: {}".format(msg))
+    print(len(msg))
+    if len(msg) == 2:
+        return_numbers = []
 
-    return_numbers = []
+        for number in msg:
+            try:
+                return_numbers.append(int(number))
+            except:
+                return_numbers.append(float(number))
 
-    for number in msg:
-        try:
-            return_numbers.append(int(number))
-        except:
-            return_numbers.append(float(number))
-            
-    return return_numbers
-
-
-# In[ ]:
-
-desiredTemp = 200
-desiredSpeed = int(.33 * 256)
-onOff = 0
-P = 10
-I = int(.05 * 256)
+        return return_numbers
+    else:
+        return [2,2] #error message which indicates that python recieved a wrong len msg
 
 
-# In[ ]:
+# In[4]:
 
-while True:
+heaterOn=1
+motorOn=1
+
+
+# In[5]:
+
+for i in range(200):
     # Serial write section
-    print ("Python value sent: ")
-    print ([desiredTemp, desiredSpeed, onOff, P, I])
-    ser.write(bytearray([desiredTemp, desiredSpeed, onOff, P, I]))
+#     print ("Python value sent: ")
+#     print ([heaterOn, motorOn])
+    ser.write(bytearray([heaterOn, motorOn]))
 
     # Serial read section
-    msg = ser.readline() # read everything in the input buffer
-    print ("Message from arduino: ")
-    print (bitsToNumberList(msg))
+    try:
+         # read everything in the input buffer
+        parsedData = getSerialData()
+#         print ("Parsed Data: {}".format(parsedData))
+        
+    except:
+#         print ("didn't work {}".format(i))
+        pass
 
 
-# In[ ]:
+# In[6]:
 
+print(ser.is_open)
 ser.close()
-ser.is_open
+print(ser.is_open)
 
 
 # In[ ]:
