@@ -1127,10 +1127,26 @@ img {
 .img-rounded {
   border-radius: 6px;
 }
+.image {
+    border-radius: 6px;
+    border: 0;
+    display: inline-block;
+    position: relative;
+}
+.image.left {
+    float: left;
+    padding: 0 1.5em 1em 0;
+    top: 0.25em;
+}
+.image.right {
+    float: left;
+    padding: 0 1.5em 1em 0;
+    top: 0.25em;
+}
 .img-thumbnail {
   display: inline-block;
   max-width: 100%;
-  height: auto;
+  height: auto
   padding: 4px;
   line-height: 1.42857143;
   background-color: #fff;
