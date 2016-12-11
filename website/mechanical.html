@@ -2,45 +2,35 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
-
-    <title>Blog - ReFilament - PLA Filament Recycling System</title>
-
+    <title>Mechanical - ReFilament - PLA Filament Recycling System</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="css/business-casual.css" rel="stylesheet">
-
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
         rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic"
         rel="stylesheet" type="text/css">
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 
 <body>
-
     <div class="brand">ReFilament</div>
     <div class="address-bar">PLA Filament Recycling System</div>
-
     <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
@@ -77,9 +67,7 @@
         </div>
         <!-- /.container -->
     </nav>
-
     <div class="container">
-
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
@@ -88,25 +76,58 @@
                     <hr>
                 </div>
                 <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="img/mechsystem.jpg" alt="">
-                    <p>The ReFilament Mechanical system consists of a funnel, barrel, screw, nozzle, and housing all working together to take filament from pre-ground PLA to usable filament. Pre-ground PLA filament is loaded into the barrel, where the auger screw inside pushes the filament throught the barrel to the nozzle, where it is extruded out in a consistent stream of filament. To protect against kickback and torque from the filament, a lasercut housing holds all of the system components in place, allowing for sustained and consistent filament extrusion.</p>
+                    <img class="img-responsive img-border img-full" src="img/mainsystemrender.png" alt="">
+                    <!--<strong> 1) Screw </Strong>-->
+                    <div align="left">
+                        <h2>Mechanical Subsystems Overview</h2>
+                        <dl>
+                            <p></p>
+                            <dt> <font size="+2">1) Funnel</font></dt>
+                            <dd><font size="+1">The funnel was added to the system to ensure that PLA pellets would be slowly loaded into the
+                                system such that the system wouldn’t jam and would stay hot enough to ensure constant extrusion.
+                                To do this, the funnel was designed to hold pellets in it while heat from inside the barrel
+                                melted them enough to drop the pellets down into the barrel and begin the extrusion process.</font></dd>
+                            <p></p>
+                            <dt><font size="+2">2) Barrel</font></dt>
+                            <dd></dd>
+                            <p></p>
+                            <dt><font size="+2">3) Nozzle</font></dt>
+                            <dd></dd>
+                            <p></p>
+                            <dt><font size="+2">4) Housing</font></dt>
+                            <dd><font size="+1">We opted to build our system housing out of ¼” laser cut mdf and t-slot joints. Building with
+                                just laser cut mdf and t-slot joints allows us to iterate rapidly and meet all the structural
+                                and thermal properties required by our system. Mdf provides sufficient structural rigidity
+                                allowing us to hold the barrel in place through the use of a set screw, and withstand the
+                                torsion between the motor, screw, and barrel. Finally, it is heat resistant and can be in
+                                contact with the high temperature barrel.</font></dd>
+                            <p></p>
+                            <dt><font size="+2">5) Screw</font></dt>
+                            <dd><font size="+1">We chose to use a ½” auger as our plastic extrusion screw. Augers have a rotating helical blade
+                                which allows it to be used as a screw conveyor. This conveyor effect allows us to push PLA
+                                pellets towards the top of the barrel. It also provides enough forward pressure to squeeze
+                                melted PLA through the nozzle. To integrate the 3rd party auger into our system, we had to
+                                make a few modifications. First, we removed the gimlet and cut the auger to length with an
+                                abrasive saw. Second, we milled a .120” coupling slot into the the base of the auger to interface
+                                with our motor.</font></dd>
+                        </dl>
+                    </div>
                     <a href="blog.html" class="btn btn-default btn-lg">Read More</a>
                     <hr>
                 </div>
                 <div class="sketchfab-embed-wrapper">
                     <center>
-                    <iframe width="640" height="480" src="https://sketchfab.com/models/7630f46173654b3ea1b0e432948f9684/embed"
-                        frameborder="0" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
-
-                    <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
-                        <a href="https://sketchfab.com/models/7630f46173654b3ea1b0e432948f9684?utm_medium=embed&utm_source=website&utm_campain=share-popup"
-                            target="_blank" style="font-weight: bold; color: #1CAAD9;">ReFilament</a>                        by <a href="https://sketchfab.com/isaacvandor?utm_medium=embed&utm_source=website&utm_campain=share-popup"
-                            target="_blank" style="font-weight: bold; color: #1CAAD9;">isaacvandor</a> on <a href="https://sketchfab.com?utm_medium=embed&utm_source=website&utm_campain=share-popup"
-                            target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
-                    </p>
+                        <iframe width="640" height="480" src="https://sketchfab.com/models/7630f46173654b3ea1b0e432948f9684/embed" frameborder="0"
+                            allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+                        <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;">
+                            <a href="https://sketchfab.com/models/7630f46173654b3ea1b0e432948f9684?utm_medium=embed&utm_source=website&utm_campain=share-popup"
+                                target="_blank" style="font-weight: bold; color: #1CAAD9;">ReFilament</a>                            by <a href="https://sketchfab.com/isaacvandor?utm_medium=embed&utm_source=website&utm_campain=share-popup"
+                                target="_blank" style="font-weight: bold; color: #1CAAD9;">isaacvandor</a> on <a href="https://sketchfab.com?utm_medium=embed&utm_source=website&utm_campain=share-popup"
+                                target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a>
+                        </p>
                     </center>
-            </div>
-<!--             <div class="col-lg-12 text-center">
+                </div>
+                <!--             <div class="col-lg-12 text-center">
     <ul class="pager">
         <li class="previous"><a href="#">&larr; Older</a>
         </li>
@@ -114,12 +135,10 @@
         </li>
     </ul>
 </div> -->
+            </div>
         </div>
     </div>
-
-    </div>
     <!-- /.container -->
-
     <footer>
         <div class="container">
             <div class="row">
@@ -129,13 +148,10 @@
             </div>
         </div>
     </footer>
-
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
 </body>
 
 </html>
