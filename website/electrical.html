@@ -2,43 +2,35 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-<!-- Favicon-->
-<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-<link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
-
-    <title>Blog - ReFilament - PLA Filament Recycling System</title>
-
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+    <title>Electrical - ReFilament - PLA Filament Recycling System</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="css/business-casual.css" rel="stylesheet">
-
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
-
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+        rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic"
+        rel="stylesheet" type="text/css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 
 <body>
-
     <div class="brand">ReFilament</div>
     <div class="address-bar">PLA Filament Recycling System</div>
-
     <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
@@ -75,9 +67,7 @@
         </div>
         <!-- /.container -->
     </nav>
-
     <div class="container">
-
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
@@ -87,49 +77,55 @@
                     <hr>
                 </div>
                 <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="img/slide-1.jpg" alt="">
-                    <h2>Post Title
-                        <br>
-                        <small>October 13, 2013</small>
-                    </h2>
-                    <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    <a href="#" class="btn btn-default btn-lg">Read More</a>
+                    <!--<img class="img-responsive img-border img-full" src="img/slide-1.jpg" alt="">-->
+                    <iframe src="https://drive.google.com/file/d/0Bw_8D8Ny1KWhMGYxM1gwODFlNXc/preview" width="900" height="570"></iframe>
+                    <p></p>
+                    <div align=left>
+                        <font size="+1">
+                            <p>ReFilament’s electrical system consists of six major components and their integration, as listed
+                                above. The system is designed around an Arduino Uno (1), which manages two control systems.
+                                The Uno takes analog measurements from an NTC thermistor and uses them to control the high-power
+                                nichrome heater coil. It also takes digital diameter measurements from a set of digital calipers
+                                through a custom level shifter in order to change the drawing speed of our spooling system,
+                                thereby regulating the diameter of our filament. </p>
+
+                            <p>The inputs to our control systems come in two very different forms. For the measurement of the
+                                extruder temperature, we’ve designed a Wheatstone bridge (3) to reject common-mode noise
+                                in the thermistor measurement, and the potential across the bridge is fed through a unity-gain
+                                instrumentation amplifier to an analog pin on the Arduino Uno. For the digital caliper measurement
+                                on the other hand, the 1.8V current-sink signal from the calipers has to be level-shifted
+                                to a 5V current-source signal. We achieved this with two op-amp comparators at ~1V, and referencing
+                                the calipers to a 1.8V linear regulator (2).</p>
+
+                            <p> The control outputs to our extrusion system, in contrast to the inputs, are all very similar.
+                                They all take the form of an N-type field-effect transistor on the low side of a high-power
+                                plant. Our heater coil and extrusion motor are both low-side driven with PSMN022-30pl power
+                                FETs (4 & 5), and our smaller spooling motor uses a BS170 signal FET(6).</p>
+
+                            <p> The Arduino also controls the enable input to our 200W server power supply, which allows it to
+                                wait to energize the high-power system, preventing any stray startup-sequence transients
+                                from affecting our large motors (1). In addition, it controls two indicator LEDs on a heads-up
+                                panel to inform the user of the state of the heater coil, and whether the extruder is of
+                                a sufficient temperature to burn (7). Inputs and outputs to the control system are synchronized
+                                over a serial interface with the Raspberry Pi that maintains the user interface.
+                            </p>
+                        </font>
+                        </div>
+                    <a href="blog.html" class="btn btn-default btn-lg">Read More</a>
                     <hr>
                 </div>
-                <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="img/slide-2.jpg" alt="">
-                    <h2>Post Title
-                        <br>
-                        <small>October 13, 2013</small>
-                    </h2>
-                    <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    <a href="#" class="btn btn-default btn-lg">Read More</a>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="img/slide-3.jpg" alt="">
-                    <h2>Post Title
-                        <br>
-                        <small>October 13, 2013</small>
-                    </h2>
-                    <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    <a href="#" class="btn btn-default btn-lg">Read More</a>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <ul class="pager">
-                        <li class="previous"><a href="#">&larr; Older</a>
-                        </li>
-                        <li class="next"><a href="#">Newer &rarr;</a>
-                        </li>
-                    </ul>
-                </div>
+                <!--                 <div class="col-lg-12 text-center">
+    <ul class="pager">
+        <li class="previous"><a href="#">&larr; Older</a>
+        </li>
+        <li class="next"><a href="#">Newer &rarr;</a>
+        </li>
+    </ul>
+</div> -->
             </div>
         </div>
-
     </div>
     <!-- /.container -->
-
     <footer>
         <div class="container">
             <div class="row">
@@ -139,13 +135,10 @@
             </div>
         </div>
     </footer>
-
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
 </body>
 
 </html>
