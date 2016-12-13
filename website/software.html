@@ -90,25 +90,84 @@
                             <center>Software</center>
                         </h2>
                         <dl>
-                        <p>We set out to have an easy method of system control. Ideally, anyone could walk up to our recycler
-                            and, through interacting with our GUI, understand how to use it. That of course meant that we
-                            had to build a GUI which would be intuitive to use and which would connect to our electrical
-                            system. To do this, we used the Python package PyQt, which offered a more updated, and therefore
-                            more professional, look than other packages such as Tkinter. It also was easier to implement
-                            than some other packages, which meant that the integration process would be less painful. The
-                            result was a GUI which walks the user through the entire recycling process, and which records
-                            data about the recycling job so that anyone can view the job log to assess system performance
-                            over time.</p>
-                        <h2>
-                            <center>Firmware</center>
-                        </h2>
-                        <dl>
-                        <p><!--Hoppe, put firmware things here! <3 --></p>
-                        <center><a href="blog.html" class="btn btn-default btn-lg">Read More</a></center>
-                        <hr>
+                            <p>We set out to have an easy method of system control. Ideally, anyone could walk up to our recycler
+                                and, through interacting with our GUI, understand how to use it. That of course meant that
+                                we had to build a GUI which would be intuitive to use and which would connect to our electrical
+                                system. To do this, we used the Python package PyQt, which offered a more updated, and therefore
+                                more professional, look than other packages such as Tkinter. It also was easier to implement
+                                than some other packages, which meant that the integration process would be less painful.
+                                The result was a GUI which walks the user through the entire recycling process, and which
+                                records data about the recycling job so that anyone can view the job log to assess system
+                                performance over time.</p>
+                            <h2>
+                                <center>Firmware</center>
+                            </h2>
+                            <p>The firmware of ReFilament is defined as all the embedded code written for Arduino that the user
+                                doesn’t interact with directly, but manage the spooling control and heating control systems
+                                and communicate that data with the Raspberry Pi. It can all be found <a href="https://github.com/songbird175/ReFilament/blob/master/ReFilament/ReFilament.ino">here.</a></p>
+
+                            <p>The control code for the spooling system required a pretty straightforward output, just analogWriting
+                                a PWM pin that controls the FET driving the spooling motor. However, the sensor input to
+                                the system is actually quite complicated. It involved reading a 24 bit dataframe from the
+                                calipers asynchronously. The way we do this is in the decode() method in ReFilament.ino.
+                                When the clock line from the caliper level shifter triggers an interrupt on the falling edge,
+                                it sets clockFlag to 1, which signals to the main loop to read the current value on the data
+                                pin from the caliper level shifter. The reason the interrupt only sets a flag is to avoid
+                                an interrupt upsetting the control algorithm or the Serial communication flow, instead waiting
+                                until the next availability in the main loop to process the caliper data.</p>
+
+                            <p> Once the caliper data has been read, it also has to check whether the entirety of the caliper
+                                dataframe has been read or not, or if the value should be negative. This happens in all of
+                                the lines after “now = millis()” in decode(). </p>
+
+                            <p>At this point, the caliper measurement is fed into the spooling motor control feedback loop.
+                                If the filament is too thin, the spooling motors are slowed down. If it is too thick, the
+                                spooling motors are sped up. In its current iteration, the spooling motors are driven at
+                                a constant speed due to a lack of filament cooling consistency, preventing us from tuning
+                                the control algorithm. </p>
+
+                            <p>The heating control code for ReFilament’s barrel heater coil also has a very simple input and
+                                a complicated output. The input takes the form of a negative temperature coefficient thermistor
+                                fed through a Wheatstone bridge, which in the end is just an analogRead(0) in the Arduino
+                                code. The output however, takes some processing. During each iteration of the main loop,
+                                the analog output of the thermistor circuitry is read, and the temperature is calculated
+                                by a linear approximation of the thermistor transfer function, chosen to be accurate in the
+                                range of 180-220 degrees Celsius. The loop then calls update_temp(), which is a simple thermostat
+                                function, turning the heater coil on if the temperature is below 200 degrees and turning
+                                the heater coil off if the temperature is above 210 degrees. </p>
+
+                            <p>Serial communication was chosen as the data transfer protocol of choice for our project. between
+                                the Raspberry Pi and the Arduino. At a high level, at the press of the GUI preheat button,
+                                the Raspberry Pi tells the Arduino to turn on. After preheat finishes, the Raspberry Pi tells
+                                the Arduino to turn the motors on. On the other hand, the Arduino sends back a packet containing
+                                the current temperature of the nozzle, and the current filament diameter read by the calipers.</p>
+
+                            <p> In terms of serial setup, we choose to run at a baud rate of 9600 bits per second. Although many
+                                people opt to use use baud rates greater than 50000 bits per second, 9600 bits per second
+                                is more than enough for the data transfer bandwidth of our project. On the Raspberry Pi,
+                                we opt to use PySerial (a python serial library). To make our data communication reliable,
+                                we made a function called “getSerialData()” which reads data from the serial buffer until
+                                termination at a new line. The use of a function also means it’s expected behavior always
+                                stays the same. When we encounter new errors in the serial protocol, we simply update the
+                                function with addition error handling. This approach allowed the most seamless integration
+                                between the GUI and serial data transfer. </p>
+
+                            <p>On the Arduino, we first check to see if any data exists in the serial buffer. If we see data,
+                                we read 256 bytes from the serial buffer into our serial buffer array. We then update the
+                                HeatOn and MotorsOn variables with the first two bytes of the serial buffer array. The Arduino
+                                also sends current nozzle temperature and current filament diameter to the Raspberry Pi through
+                                the same serial line through the use of serial.Print() and serial.Println() functions.
+                            </p>
+
+                            <dl>
+                                <p>
+                                    <!--Hoppe, put firmware things here! <3 -->
+                                </p>
+                                <center><a href="blog.html" class="btn btn-default btn-lg">Read More</a></center>
+                                <hr>
                     </div>
                 </div>
-                        <!--                 <div class="col-lg-12 text-center">
+                <!--                 <div class="col-lg-12 text-center">
     <ul class="pager">
         <li class="previous"><a href="#">&larr; Older</a>
         </li>
@@ -116,27 +175,27 @@
         </li>
     </ul>
 </div> -->
-                </div>
             </div>
-
         </div>
-        <!-- /.container -->
 
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <p>Copyright &copy; ReFilament 2016 || Olin College of Engineering</p>
-                    </div>
+    </div>
+    <!-- /.container -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; ReFilament 2016 || Olin College of Engineering</p>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-        <!-- jQuery -->
-        <script src="js/jquery.js"></script>
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="js/bootstrap.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 
 </body>
 
