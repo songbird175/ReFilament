@@ -7,15 +7,9 @@ const byte HTR_LED = 7;
 const byte HOT_LED = 6;
 
 
-// Serial input parameter editing for PID
-boolean input_complete = false;
-float input_param = 0;
-String input = "";
-
-
 // Extruder motor globals
 boolean extruder_active = 1;
-byte ex_power = 80;
+byte ex_power = 70;
 
 
 // Time related
@@ -23,9 +17,9 @@ long start_millis = 0;
 
 
 // Heater control globals
-long over_temp_mv = 2480;
-long temp_mv = 0;
-int temp_deg = 87;
+int over_temp_mv = 2550;
+int temp_mv = 0;
+int temp_deg = 0;
 byte temp_hi_limit = 210;
 byte temp_lo_limit = 190;
 bool heater_on = false;
@@ -34,12 +28,13 @@ bool heater_on = false;
 byte spl_kp = 0;
 byte spl_ki = 0;
 byte spl_kd = 0;
+byte spl_power = 5;
 
 
 // Serial variables
 byte serialBuffer[256];
-byte heater_activated = 0;
-byte motors_activated = 0;
+byte heater_activated = 1;
+byte motors_activated = 1;
 int current_temp = 200; // in degrees celcius 
 int current_diam = 1750; // in micrometers
 
@@ -79,6 +74,8 @@ void setup() {
   pinMode(SPL_PIN, OUTPUT); // Spooling Motor
   pinMode(HTR_PIN, OUTPUT); // Heater
   pinMode(ENBL_PIN, OUTPUT); // Power Supply Enable
+  pinMode(HTR_LED, OUTPUT);
+  pinMode(HOT_LED, OUTPUT);
   pinMode(clockPin, INPUT);  
   pinMode(dataPin, INPUT); 
   
@@ -93,6 +90,8 @@ void setup() {
   digitalWrite(SPL_PIN, LOW);
   digitalWrite(HTR_PIN, LOW);
   digitalWrite(ENBL_PIN, LOW);
+  digitalWrite(HTR_LED, HIGH);
+  digitalWrite(HOT_LED, HIGH);
   delay(6000);
   digitalWrite(ENBL_PIN, HIGH);
 
@@ -109,13 +108,18 @@ void loop() {
   if (temp_mv >= over_temp_mv) {
     heater_shutdown();
   }
-  long temp_deg = temp_mv / 0.9181 - 2483;
+  temp_deg = temp_mv / 0.9181 - 2483;
+  if (temp_deg > -800) {
+    digitalWrite(HOT_LED, LOW);
+  } else {
+    digitalWrite(HOT_LED, HIGH);
+  }
   if (heater_activated) {
     update_temp();
   }
-  
-  analogWrite(SPL_PIN, 3);
-  analogWrite(EXT_PIN, 40);
+
+  analogWrite(SPL_PIN, spl_power);
+  analogWrite(EXT_PIN, ex_power);
   delay(10);
 
   printSerialData();
@@ -125,16 +129,17 @@ void loop() {
 
 void heater_shutdown() {
   digitalWrite(HTR_PIN, LOW);
-  heater_activated = 0;
+  digitalWrite(HTR_LED, HIGH);
+  heater_activated = false;
 }
 
 void update_temp() {
-  if (temp_deg <= 180) {
+  if (temp_deg < 200) {
     digitalWrite(HTR_PIN, HIGH);
-    heater_on = true;
-  } else if (temp_deg >= 220) {
+    digitalWrite(HTR_LED, HIGH);
+  } else if (temp_deg >= 210) {
     digitalWrite(HTR_PIN, LOW);
-    heater_on = false;
+    digitalWrite(HTR_LED, LOW);
   } 
 }
 
@@ -154,9 +159,9 @@ void clockISR(){
 void printSerialData()
 {
   // printSerialData prints the
-  Serial.print(current_temp); // 
+  Serial.print(temp_deg); // 
   Serial.print(",");
-  Serial.println(current_diam);
+  Serial.println(temp_mv);
 }
 
 void readSerialData()
