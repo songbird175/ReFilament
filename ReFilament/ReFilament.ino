@@ -152,6 +152,43 @@ void update_ex_power()
   }
 }
 
+void decode(){
+   unsigned char dataIn;
+   dataIn = digitalRead(dataPin); 
+   
+   now = millis();
+   
+   if((now - lastInterrupt) > cycleTime)
+   {
+     finalValue = (-1 *(value * sign) / 100.00);
+     currentBit = 0;
+     value = 0;
+     sign = 1;
+     newValue = 1;      
+   } 
+   else if (currentBit < 16 )
+   {
+      
+     if (dataIn == 0)
+     {
+       if (currentBit < 16) {
+          value |= 1 << currentBit;
+       }  
+       else if (currentBit == 20) {
+          sign = -1;
+       }
+               
+     }
+     
+     currentBit++;
+     
+   }
+   
+   lastInterrupt = now;
+   
+}
+
+
 void clockISR(){
  clockFlag = 1; 
 }
