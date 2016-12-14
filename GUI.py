@@ -22,7 +22,7 @@ class Main(QMainWindow):
 		self.heat_on_off = 0
 		self.motor_on_off = 0
 		#establish connection to the arduino upon app start
-		self.ser = serial.Serial('/dev/ttyACM1', 9600)
+		self.ser = serial.Serial('/dev/ttyACM0', 9600)
 
 		#instantiate a central widget, which will be the focus of the window
 		#using a QStackedWidget so we can change the view in the window from one QWidget to another
